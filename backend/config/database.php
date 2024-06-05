@@ -41,7 +41,7 @@ return [
 
          'mongodb' => [
                 'driver' => 'mongodb',
-                'dsn' => env('DB_URI', 'mongodb+srv://user:user@cluster0.bddkje9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'),
+                'dsn' => env('DB_URI', ''),
                 'database' => 'Cluster0',
          ],
 
