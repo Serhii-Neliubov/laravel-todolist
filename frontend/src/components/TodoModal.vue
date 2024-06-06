@@ -36,44 +36,5 @@
     emit('submit');
   }
 
-  // export default {
-  //   name: "TodoModal",
-  //
-  //   emits: ['create', 'close', 'update'],
-  //
-  //   data: () => ({
-  //   }),
-  //
-  //   setup() {
-  //     const todoModel = defineModel();
-  //     console.log(todoModel);
-  //
-  //     return {
-  //       todoModel,
-  //     }
-  //   },
-  //
-  //   props: {
-  //     todoModel: {
-  //       type: Object,
-  //       required: true,
-  //     }
-  //   },
-  //
-  //   methods: {
-  //     createTodo() {
-  //       // const todo: ITodo = {
-  //       //   title: this.todoModel.title,
-  //       //   description: this.todoModel.description,
-  //       //   state: TODO_STATE.NEW
-  //       // }
-  //       //
-  //       // this.$emit('create', todo);
-  //     },
-  //
-  //     closeModal() {
-  //       this.$emit('close');
-  //     }
-  //   }
-  // };
+
 </script>

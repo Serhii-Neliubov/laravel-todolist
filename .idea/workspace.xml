@@ -6,12 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="refactoring, added ts ignore for old library &quot;url&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TodoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TodoController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Todo.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Todo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Todo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Todo.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/models/ITodo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/models/ITodo.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

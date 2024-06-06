@@ -44,12 +44,14 @@ export class TodosService {
   }
 
   public static async updateTodo(todo: ITodo): Promise<ITodo | undefined> {
-    if(!todo?.id) {
+    if(!todo._id) {
       return;
     }
 
     try {
-      const { data } = await $api.put(`/todos/${todo.id}`, todo);
+      const { data } = await $api.put(`/todos/${todo._id}`, todo);
+
+      console.log('data', data)
 
       return data;
     } catch (error){

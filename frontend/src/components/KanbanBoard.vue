@@ -15,13 +15,19 @@
               New
             </span>
           </div>
-          <div
-              v-for="todo in newTodos"
-              :key="todo._id"
-              class="flex flex-col w-full"
+          <draggable
+              class="w-full"
+              :list="newTodos"
+              group="todos"
+              @change="changeTodoState($event, TODO_STATE.NEW)"
+              itemKey="_id"
           >
-            <Todo @edit="onEditTodo" @delete="onDeleteTodo" :todo="todo" />
-          </div>
+            <template #item="{ element:todo }">
+              <div class="flex flex-col w-full">
+                <Todo @edit="onEditTodo" @delete="onDeleteTodo" :todo="todo" />
+              </div>
+            </template>
+          </draggable>
         </div>
       </div>
       <div class="border-2 border-yellow-400 flex-1 h-auto lg:h-[100vh] p-4 rounded">
@@ -30,13 +36,19 @@
             Processing
           </span>
         </div>
-        <div
-            v-for="todo in processingTodos"
-            :key="todo._id"
-            class="flex flex-col w-full"
+        <draggable
+            class="w-full"
+            :list="processingTodos"
+            group="todos"
+            @change="changeTodoState($event, TODO_STATE.PROCESSING)"
+            itemKey="_id"
         >
-          <Todo @edit="onEditTodo" @delete="onDeleteTodo" :todo="todo" />
-        </div>
+          <template #item="{ element:todo }">
+            <div class="flex flex-col w-full">
+              <Todo @edit="onEditTodo" @delete="onDeleteTodo" :todo="todo" />
+            </div>
+          </template>
+        </draggable>
       </div>
       <div class="border-2 border-green-400 flex-1 h-auto lg:h-[100vh] p-4 rounded">
         <div class="border-gray-300 border-b-2 w-full pb-3">
@@ -44,13 +56,19 @@
             Done
           </span>
         </div>
-        <div
-            v-for="todo in doneTodos"
-            :key="todo._id"
-            class="flex flex-col w-full"
+        <draggable
+            class="w-full"
+            :list="doneTodos"
+            group="todos"
+            @change="changeTodoState($event, TODO_STATE.DONE)"
+            itemKey="_id"
         >
-          <Todo @edit="onEditTodo" @delete="onDeleteTodo" :todo="todo" />
-        </div>
+          <template #item="{ element:todo }">
+            <div class="flex flex-col w-full">
+              <Todo @edit="onEditTodo" @delete="onDeleteTodo" :todo="todo" />
+            </div>
+          </template>
+        </draggable>
       </div>
     </div>
   </div>
@@ -66,6 +84,7 @@
 <script lang="ts">
   import {onMounted, reactive, ref} from "vue";
   import {ITodo, TODO_STATE} from "@models/ITodo.ts";
+  import draggable from "vuedraggable";
 
   import {TodosService} from "@services/TodosService.ts";
   import TodoModal from "@components/TodoModal.vue";
@@ -77,6 +96,7 @@
       components: {
         Todo,
         TodoModal,
+        draggable,
       },
 
       setup() {
@@ -129,9 +149,30 @@
         doneTodos() {
           return this.todos.filter(t => t.state === TODO_STATE.DONE);
         },
+        TODO_STATE() {
+          return TODO_STATE;
+        },
       },
 
       methods: {
+        changeTodoState(event: any, newState: TODO_STATE ) {
+          if(event.added) {
+            const addedTodo = event.added.element;
+            console.log(addedTodo._id, this.todos)
+
+            const foundTodo: ITodo | undefined = this.todos.find(t => t._id === addedTodo._id);
+            console.log(foundTodo)
+
+            if (!foundTodo) {
+              return console.error('Todo not found');
+            }
+
+
+            foundTodo.state = newState;
+            this.updateTodo(foundTodo);
+          }
+        },
+
         openModal() {
           this.isModalVisible = true;
         },
@@ -149,10 +190,18 @@
 
         onModalSubmit() {
           if(this.modalTodo._id) {
-            this.updateTodo(this.modalTodo._id);
+            this.updateTodo(this.modalTodo);
           } else {
             this.createTodo(this.modalTodo);
           }
+
+          this.isModalVisible = false;
+
+          Object.assign(this.modalTodo, {
+            title: '',
+            description: '',
+            state: TODO_STATE.NEW,
+          });
         },
 
         async createTodo(todo: ITodo) {
@@ -170,12 +219,6 @@
             }
 
             this.todos.push(createdTodo);
-            this.isModalVisible = false;
-            Object.assign(this.modalTodo, {
-              title: '',
-              description: '',
-              state: TODO_STATE.NEW,
-            });
           } catch (error) {
             console.error(error);
           } finally {
@@ -183,15 +226,15 @@
           }
         },
 
-        async updateTodo(todoId: string) {
+        async updateTodo(todo: ITodo) {
           try {
             this.loading = true;
 
-            if (!todoId) {
-              return console.error('Todo id not found');
+            if (!todo?._id) {
+              return console.error('Todo not found');
             }
 
-            const updatedTodo: ITodo | undefined = await TodosService.updateTodo(this.modalTodo);
+            const updatedTodo: ITodo | undefined = await TodosService.updateTodo(todo);
 
             if (!updatedTodo?._id) {
               return console.error('Todo not found');
