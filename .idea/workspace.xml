@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="refactoring, added ts ignore for old library &quot;url&quot;">
+    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="drag and drop functional">
+      <change afterPath="$PROJECT_DIR$/frontend/src/store/useTodosStore.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/store.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717688286377</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="drag and drop functional">
+      <option name="closed" value="true" />
+      <created>1717707399877</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1717707399877</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -138,6 +145,7 @@
     <MESSAGE value="cors error fixed, added delete item functionality, interceptors for requests" />
     <MESSAGE value="added responsive" />
     <MESSAGE value="refactoring, added ts ignore for old library &quot;url&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring, added ts ignore for old library &quot;url&quot;" />
+    <MESSAGE value="drag and drop functional" />
+    <option name="LAST_COMMIT_MESSAGE" value="drag and drop functional" />
   </component>
 </project>

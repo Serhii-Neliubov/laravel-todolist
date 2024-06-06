@@ -82,200 +82,135 @@
 </template>
 
 <script lang="ts">
-  import {onMounted, reactive, ref} from "vue";
-  import {ITodo, TODO_STATE} from "@models/ITodo.ts";
-  import draggable from "vuedraggable";
+import { useTodosStore } from '@store/useTodosStore.ts';
+import { ITodo, TODO_STATE } from '../models/ITodo';
+import Todo from './Todo.vue';
+import TodoModal from './TodoModal.vue';
+import draggable from 'vuedraggable';
 
-  import {TodosService} from "@services/TodosService.ts";
-  import TodoModal from "@components/TodoModal.vue";
-  import Todo from "@components/Todo.vue";
+export default {
+  name: 'KanbanBoard',
 
-  export default {
-      name: 'KanbanBoard',
+  components: {
+    Todo,
+    TodoModal,
+    draggable,
+  },
 
-      components: {
-        Todo,
-        TodoModal,
-        draggable,
-      },
+  data() {
+    return {
+      isModalVisible: false,
 
-      setup() {
-        const todos = reactive<ITodo[]>([]);
-        const modalTodo = ref<ITodo>({
-          title: '',
-          description: '',
-          state: TODO_STATE.NEW,
-        });
+      modalTodo: {
+        title: '',
+        description: '',
+        state: TODO_STATE.NEW,
+      } as ITodo,
 
-        const isModalVisible = ref(false);
-        const loading = ref(false);
+      loading: false,
+    };
+  },
 
-        async function getAllTodos() {
-          try {
-            loading.value = true;
-            const todosList: ITodo[] | undefined = await TodosService.getAllTodos();
+  setup() {
+    const todosStore = useTodosStore();
+    return {
+      todosStore,
+    };
+  },
 
-            if (!todosList) {
-              return console.error('No todos found');
-            }
+  computed: {
+    todos() {
+      return this.todosStore.todos;
+    },
+    newTodos() {
+      return this.todos.filter(t => t.state === TODO_STATE.NEW);
+    },
+    processingTodos() {
+      return this.todos.filter(t => t.state === TODO_STATE.PROCESSING);
+    },
+    doneTodos() {
+      return this.todos.filter(t => t.state === TODO_STATE.DONE);
+    },
+    TODO_STATE() {
+      return TODO_STATE;
+    },
+  },
 
-            Object.assign(todos, todosList);
-          } catch (error) {
-            console.error(error);
-          } finally {
-            loading.value = false;
-          }
+  methods: {
+    async getAllTodos() {
+      try {
+        this.loading = true;
+        await this.todosStore.fetchTodos();
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    openModal() {
+      this.isModalVisible = true;
+    },
+
+    onModalClose() {
+      this.isModalVisible = false;
+      Object.assign(this.modalTodo, {
+        _id: undefined,
+        title: '',
+        description: '',
+        state: TODO_STATE.NEW,
+      });
+    },
+
+    async onModalSubmit() {
+      if (this.modalTodo._id) {
+        await this.todosStore.update(this.modalTodo);
+      } else {
+        await this.todosStore.add(this.modalTodo);
+      }
+      this.isModalVisible = false;
+      Object.assign(this.modalTodo, {
+        title: '',
+        description: '',
+        state: TODO_STATE.NEW,
+      });
+    },
+
+    async changeTodoState(event: any, newState: TODO_STATE) {
+      if (event.added) {
+        const addedTodo = event.added.element;
+        const foundTodo = this.todos.find(t => t._id === addedTodo._id);
+
+        if (!foundTodo) {
+          return console.error('Todo not found');
         }
 
-        onMounted(async () => {
-          await getAllTodos();
-        });
+        foundTodo.state = newState;
+        await this.todosStore.update(foundTodo);
+      }
+    },
 
-        return {
-          todos,
-          isModalVisible,
-          modalTodo,
-          loading,
-        };
-      },
+    onEditTodo(todoId: string) {
+      const foundTodo = this.todos.find(t => t._id === todoId);
 
-      computed: {
-        newTodos() {
-          return this.todos.filter(t => t.state === TODO_STATE.NEW);
-        },
-        processingTodos() {
-          return this.todos.filter(t => t.state === TODO_STATE.PROCESSING);
-        },
-        doneTodos() {
-          return this.todos.filter(t => t.state === TODO_STATE.DONE);
-        },
-        TODO_STATE() {
-          return TODO_STATE;
-        },
-      },
+      if (!foundTodo) {
+        return console.error('Todo not found');
+      }
 
-      methods: {
-        changeTodoState(event: any, newState: TODO_STATE ) {
-          if(event.added) {
-            const addedTodo = event.added.element;
-            console.log(addedTodo._id, this.todos)
+      Object.assign(this.modalTodo, foundTodo);
+      this.isModalVisible = true;
+    },
 
-            const foundTodo: ITodo | undefined = this.todos.find(t => t._id === addedTodo._id);
-            console.log(foundTodo)
+    async onDeleteTodo(todoId: string) {
+      try {
+        this.loading = true;
+        await this.todosStore.remove(todoId);
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
 
-            if (!foundTodo) {
-              return console.error('Todo not found');
-            }
-
-
-            foundTodo.state = newState;
-            this.updateTodo(foundTodo);
-          }
-        },
-
-        openModal() {
-          this.isModalVisible = true;
-        },
-
-        onModalClose() {
-          this.isModalVisible = false;
-
-          Object.assign(this.modalTodo, {
-            _id: undefined,
-            title: '',
-            description: '',
-            state: TODO_STATE.NEW,
-          });
-        },
-
-        onModalSubmit() {
-          if(this.modalTodo._id) {
-            this.updateTodo(this.modalTodo);
-          } else {
-            this.createTodo(this.modalTodo);
-          }
-
-          this.isModalVisible = false;
-
-          Object.assign(this.modalTodo, {
-            title: '',
-            description: '',
-            state: TODO_STATE.NEW,
-          });
-        },
-
-        async createTodo(todo: ITodo) {
-          try {
-            this.loading = true;
-
-            if (!todo.title || !todo.description) {
-              return console.error('Title and description are required');
-            }
-
-            const createdTodo: ITodo | undefined = await TodosService.createTodo(todo);
-
-            if (!createdTodo?._id) {
-              return console.error('Problem creating todo');
-            }
-
-            this.todos.push(createdTodo);
-          } catch (error) {
-            console.error(error);
-          } finally {
-            this.loading = false;
-          }
-        },
-
-        async updateTodo(todo: ITodo) {
-          try {
-            this.loading = true;
-
-            if (!todo?._id) {
-              return console.error('Todo not found');
-            }
-
-            const updatedTodo: ITodo | undefined = await TodosService.updateTodo(todo);
-
-            if (!updatedTodo?._id) {
-              return console.error('Todo not found');
-            }
-
-            this.todos.splice(this.todos.findIndex(t => t._id === updatedTodo._id), 1, updatedTodo);
-          } catch (error) {
-            console.error(error);
-          } finally {
-            this.loading = false;
-          }
-        },
-
-        onEditTodo(todoId: string) {
-          const foundTodo = this.todos.find(t => t._id === todoId);
-
-          if (!foundTodo) {
-            return console.error('Todo not found');
-          }
-
-          Object.assign(this.modalTodo, foundTodo);
-
-          this.isModalVisible = true;
-        },
-
-        async onDeleteTodo(todoId: string) {
-          try {
-            this.loading = true;
-            const deletedTodo = await TodosService.deleteTodo(todoId);
-
-            if (!deletedTodo) {
-              return console.error('Todo not found');
-            }
-
-            this.todos.splice(this.todos.findIndex(t => t._id === todoId), 1);
-          } catch (error) {
-            console.error(error);
-          } finally {
-            this.loading = false;
-          }
-        },
-      },
-    };
+  mounted() {
+    this.getAllTodos();
+  },
+};
 </script>

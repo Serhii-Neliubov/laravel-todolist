@@ -12,20 +12,6 @@ export class TodosService {
     }
   }
 
-  public static async getTodoById(id: string): Promise<ITodo | undefined> {
-    if(!id) {
-      return;
-    }
-
-    try {
-      const { data } = await $api.get(`/todos/${id}`);
-
-      return data;
-    } catch (error){
-      console.log(`Error getting todo: ${id}`);
-    }
-  }
-
   public static async createTodo(todo: ITodo): Promise<ITodo | undefined> {
     if(!todo){
       return;
