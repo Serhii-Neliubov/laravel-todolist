@@ -1,32 +1,34 @@
 <template>
-  <div class="flex gap-2 p-[15px] flex-col">
-    <div class="flex flex-col my-5 gap-3">
-      <button class="bg-blue-500 py-3 max-w-[250px] text-white rounded hover:bg-blue-400 transition-all font-semibold">Create Todo</button>
+  <div class="flex flex-col lg:flex-col p-4 lg:p-6 gap-4">
+    <div class="my-5">
+      <button class="bg-blue-500 py-3 w-full max-w-[250px] text-white rounded hover:bg-blue-400 transition-all font-semibold">
+        Create Todo
+      </button>
     </div>
-    <div class="flex gap-2">
-      <div class="border-2 border-blue-300 h-[100vh] w-[100%] p-[15px] rounded">
-        <div class="flex justify-between items-center flex-col">
-          <div class="border-gray-300 border-b-[2px] w-[100%] pb-[10px]">
-            <span class="text-2xl font-bold ml-[10px] uppercase">New</span>
+    <div class="flex flex-col lg:flex-row gap-4 w-full">
+      <div class="border-2 border-blue-300 flex-1 h-auto lg:h-[100vh] p-4 rounded">
+        <div class="flex flex-col items-center justify-between">
+          <div class="border-gray-300 border-b-2 w-full pb-3">
+            <span class="text-2xl font-bold uppercase">New</span>
           </div>
-          <div v-for="todo in todos" class="flex w-full">
+          <div v-for="todo in todos" class="flex flex-col w-full">
             <Todo :todo="todo" :updateTodo="updateTodo" :deleteTodo="deleteTodo" />
           </div>
         </div>
       </div>
-      <div class="border-2 border-yellow-400 rounded h-[100vh] w-[100%] p-[15px]">
-        <div class="border-gray-300 border-b-2 w-[100%] pb-[10px]">
+      <div class="border-2 border-yellow-400 flex-1 h-auto lg:h-[100vh] p-4 rounded">
+        <div class="border-gray-300 border-b-2 w-full pb-3">
           <span class="text-2xl font-bold uppercase">Processing</span>
         </div>
       </div>
-      <div class="border-2 border-green-400 rounded h-[100vh] w-[100%] p-[15px]">
-        <div class="border-gray-300 border-b-2 w-[100%] pb-[10px]">
+      <div class="border-2 border-green-400 flex-1 h-auto lg:h-[100vh] p-4 rounded">
+        <div class="border-gray-300 border-b-2 w-full pb-3">
           <span class="text-2xl font-bold uppercase">Done</span>
         </div>
       </div>
     </div>
   </div>
-<!--  <todo-modal v-model:openModal="openModal" />-->
+  <!--  <todo-modal v-model:openModal="openModal" />-->
 
 </template>
 

@@ -25,12 +25,6 @@
       },
     },
 
-    data(vm) {
-      return {
-        todo: vm.todo,
-      }
-    },
-
     props: {
       todo: {
         type: Object,
