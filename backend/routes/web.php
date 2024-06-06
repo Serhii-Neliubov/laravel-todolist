@@ -1,20 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+// use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoController;
 
-Route::get('/todos', function () {
-    return 'Todos';
+Route::get('/', function() {
+    return view('welcome');
 });
 
-Route::post('/todos', function () {
-    return 'Todo created!';
-});
+// use Illuminate\Http\Request;
 
-Route::put('/todos/:id', function () {
-    return 'Todo updated!';
-});
+/* Route::get('/token', function (Request $request) {
+    $token = $request->session()->token();
 
-Route::delete('/todos/:id', function () {
-    return 'Todo deleted!';
-});
+    $token = csrf_token();
+    return response()->json(['token' => $token]);
+}); */
+
+Route::get('/todos', [TodoController::class, 'getAll']);
+Route::post('/todos', [TodoController::class, 'add'])
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+Route::put('/todos/{id}', [TodoController::class, 'update']);
+Route::delete('/todos/{id}', [TodoController::class, 'delete']);

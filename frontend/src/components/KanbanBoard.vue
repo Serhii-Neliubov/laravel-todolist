@@ -5,7 +5,7 @@
       <div class="border-2 border-amber-950 h-[100vh] w-[100%] p-[15px]">
         <div class="flex justify-between items-center">
           <span class="text-2xl font-bold">To Do</span>
-          <button class="bg-amber-950 text-white px-3 py-1 rounded">Add Task</button>
+          <button @click=addTask class="bg-amber-950 text-white px-3 py-1 rounded">Add Task</button>
         </div>
         <input placeholder="Task name" class="w-[100%] focus:outline-none" />
       </div>
@@ -28,10 +28,19 @@
 </template>
 
 <script lang="ts">
+  import axios from "axios";
+
   export default {
     name: "KanbanBoard",
     components: {},
-    methods: {},
+    methods: {addTask},
     computed: {},
   };
+
+  async function addTask() {
+    axios.post("http://localhost:8000/todos", {
+      title: "Task 1",
+      description: "todo",
+    });
+  }
 </script>
