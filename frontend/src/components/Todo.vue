@@ -2,8 +2,6 @@
   <div
       draggable="true"
       class="flex flex-col w-full border-2 mt-[10px] p-[15px] rounded"
-      @dragstart="handleDragStart"
-      @dragend="handleDragEnd"
   >
     <div class="flex items-center justify-between mb-[10px] gap-4">
       <span class="text-2xl font-semibold">
@@ -31,14 +29,6 @@
     emits: ['edit', 'delete'],
 
     methods: {
-      handleDragStart() {
-
-      },
-
-      handleDragEnd() {
-
-      },
-
       updateTodo(todoId: string) {
         this.$emit('edit', todoId);
       },

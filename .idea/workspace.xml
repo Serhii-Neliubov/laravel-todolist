@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="drag and drop functional">
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/useTodosStore.ts" afterDir="false" />
+    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="integrated pinia store functionality">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/store/store.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +129,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717707399877</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="integrated pinia store functionality">
+      <option name="closed" value="true" />
+      <created>1717709692746</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1717709692746</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,6 +151,7 @@
     <MESSAGE value="added responsive" />
     <MESSAGE value="refactoring, added ts ignore for old library &quot;url&quot;" />
     <MESSAGE value="drag and drop functional" />
-    <option name="LAST_COMMIT_MESSAGE" value="drag and drop functional" />
+    <MESSAGE value="integrated pinia store functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="integrated pinia store functionality" />
   </component>
 </project>

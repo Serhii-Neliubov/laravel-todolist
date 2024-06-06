@@ -82,11 +82,12 @@
 </template>
 
 <script lang="ts">
-import { useTodosStore } from '@store/useTodosStore.ts';
-import { ITodo, TODO_STATE } from '../models/ITodo';
-import Todo from './Todo.vue';
-import TodoModal from './TodoModal.vue';
 import draggable from 'vuedraggable';
+
+import { useTodosStore } from '@store/useTodosStore.ts';
+import { ITodo, TODO_STATE } from '@models/ITodo';
+import Todo from '@components/Todo.vue';
+import TodoModal from '@components/TodoModal.vue';
 
 export default {
   name: 'KanbanBoard',
@@ -113,9 +114,14 @@ export default {
 
   setup() {
     const todosStore = useTodosStore();
+
     return {
       todosStore,
     };
+  },
+
+  mounted() {
+    this.getAllTodos();
   },
 
   computed: {
@@ -140,6 +146,7 @@ export default {
     async getAllTodos() {
       try {
         this.loading = true;
+
         await this.todosStore.fetchTodos();
       } finally {
         this.loading = false;
@@ -152,6 +159,7 @@ export default {
 
     onModalClose() {
       this.isModalVisible = false;
+
       Object.assign(this.modalTodo, {
         _id: undefined,
         title: '',
@@ -166,7 +174,9 @@ export default {
       } else {
         await this.todosStore.add(this.modalTodo);
       }
+
       this.isModalVisible = false;
+
       Object.assign(this.modalTodo, {
         title: '',
         description: '',
@@ -202,15 +212,12 @@ export default {
     async onDeleteTodo(todoId: string) {
       try {
         this.loading = true;
+
         await this.todosStore.remove(todoId);
       } finally {
         this.loading = false;
       }
     },
-  },
-
-  mounted() {
-    this.getAllTodos();
   },
 };
 </script>

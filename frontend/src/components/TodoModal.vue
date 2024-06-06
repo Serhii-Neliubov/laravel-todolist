@@ -22,11 +22,10 @@
 
 <script setup lang="ts">
   import {defineModel} from "vue";
-  import {ITodo, TODO_STATE} from "@models/ITodo.ts";
+  import {ITodo} from "@models/ITodo.ts";
 
   const todoModel = defineModel<ITodo>();
   const emit = defineEmits(['close', 'submit']);
-  console.log(todoModel);
 
   const closeModal = () => {
     emit('close');
