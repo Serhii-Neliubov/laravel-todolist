@@ -1,22 +1,10 @@
 import axios from 'axios';
+import {ITodo} from "../models/ITodo.ts";
 
 const API_URL = import.meta.env.API_URL;
 
-enum todoState {
-  todo = 'todo',
-  inProgress = 'inProgress',
-  done = 'done'
-}
-
-interface Todo {
-  id?: string;
-  title: string;
-  description: string;
-  state: todoState;
-}
-
 export class TodosService {
-  public static async getTodos(): Promise<Todo[] | undefined> {
+  public static async getAllTodos(): Promise<ITodo[] | undefined> {
     try {
       const { data } = await axios.get(`${API_URL}/todos`);
 
@@ -26,7 +14,21 @@ export class TodosService {
     }
   }
 
-  public static async addTodo(todo: Todo): Promise<Todo | undefined> {
+  public static async getTodoById(id: string): Promise<ITodo | undefined> {
+    if(!id) {
+      return;
+    }
+
+    try {
+      const { data } = await axios.get(`${API_URL}/todos/${id}`);
+
+      return data;
+    } catch (error){
+      console.log(`Error getting todo: ${id}`);
+    }
+  }
+
+  public static async createTodo(todo: ITodo): Promise<ITodo | undefined> {
     if(!todo){
       return;
     }
@@ -40,7 +42,7 @@ export class TodosService {
     }
   }
 
-  public static async updateTodo(todo: Todo): Promise<Todo | undefined> {
+  public static async updateTodo(todo: ITodo): Promise<ITodo | undefined> {
     if(!todo?.id) {
       return;
     }
@@ -54,7 +56,7 @@ export class TodosService {
     }
   }
 
-  public static async deleteTodo(id: string): Promise<Todo | undefined> {
+  public static async deleteTodo(id: string): Promise<ITodo | undefined> {
     if(!id) {
       return;
     }
