@@ -1,9 +1,16 @@
 <template>
-  <div class="flex flex-col w-full border-2 mt-[10px] p-[15px] rounded">
+  <div
+      draggable="true"
+      class="flex flex-col w-full border-2 mt-[10px] p-[15px] rounded"
+      @dragstart="handleDragStart"
+      @dragend="handleDragEnd"
+  >
     <div class="flex items-center justify-between mb-[10px] gap-4">
-      <span class="text-2xl font-semibold">{{ todo.title }}</span>
+      <span class="text-2xl font-semibold">
+        {{ todo.title }}
+      </span>
       <div class="flex items-center gap-2">
-        <button @click="update" class="bg-blue-500 p-[10px] rounded hover:bg-blue-400 transition-all">
+        <button @click="updateTodo(this.todo)" class="bg-blue-500 p-[10px] rounded hover:bg-blue-400 transition-all">
           <img src="@assets/pen.svg" alt="update todo icon" class="max-w-[20px]"/>
         </button>
         <button @click="deleteTodo(this.todo._id)" class="bg-red-500 p-[10px] rounded hover:bg-red-400 transition-all">
@@ -11,7 +18,9 @@
         </button>
       </div>
     </div>
-    <p class="text-xl max-w-fit">{{ todo.description }}</p>
+    <p class="text-xl max-w-fit">
+      {{ todo.description }}
+    </p>
   </div>
 </template>
 
@@ -20,9 +29,18 @@
     name: "Todo",
 
     methods: {
-      update() {
-        this.updateTodo();
+      handleDragStart() {
+
       },
+      handleDragEnd() {
+
+      },
+    },
+
+    data() {
+      return {
+        isDragging: false,
+      };
     },
 
     props: {

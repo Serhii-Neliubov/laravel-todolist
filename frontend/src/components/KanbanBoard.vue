@@ -9,21 +9,30 @@
       <div class="border-2 border-blue-300 flex-1 h-auto lg:h-[100vh] p-4 rounded">
         <div class="flex flex-col items-center justify-between">
           <div class="border-gray-300 border-b-2 w-full pb-3">
-            <span class="text-2xl font-bold uppercase">New</span>
+            <span class="text-2xl font-bold uppercase">
+              New
+            </span>
           </div>
-          <div v-for="todo in todos" class="flex flex-col w-full">
+          <div
+              v-for="todo in todos"
+              class="flex flex-col w-full"
+          >
             <Todo :todo="todo" :updateTodo="updateTodo" :deleteTodo="deleteTodo" />
           </div>
         </div>
       </div>
       <div class="border-2 border-yellow-400 flex-1 h-auto lg:h-[100vh] p-4 rounded">
         <div class="border-gray-300 border-b-2 w-full pb-3">
-          <span class="text-2xl font-bold uppercase">Processing</span>
+          <span class="text-2xl font-bold uppercase">
+            Processing
+          </span>
         </div>
       </div>
       <div class="border-2 border-green-400 flex-1 h-auto lg:h-[100vh] p-4 rounded">
         <div class="border-gray-300 border-b-2 w-full pb-3">
-          <span class="text-2xl font-bold uppercase">Done</span>
+          <span class="text-2xl font-bold uppercase">
+            Done
+          </span>
         </div>
       </div>
     </div>
@@ -33,14 +42,14 @@
 </template>
 
 <script lang="ts">
-import {onMounted, ref} from "vue";
-import {ITodo} from "@models/ITodo.ts";
+  import {onMounted, ref} from "vue";
+  import {ITodo} from "@models/ITodo.ts";
 
-import {TodosService} from "@services/TodosService.ts";
-import TodoModal from "@components/TodoModal.vue";
-import Todo from "@components/Todo.vue";
+  import {TodosService} from "@services/TodosService.ts";
+  import TodoModal from "@components/TodoModal.vue";
+  import Todo from "@components/Todo.vue";
 
-export default {
+  export default {
     name: 'KanbanBoard',
 
     components: {
@@ -76,8 +85,13 @@ export default {
             return console.error('Title and description are required');
           }
 
-          const updatedTodo = await TodosService.updateTodo(todo);
-          const filteredTodos = todos.value.filter(t => t.id !== updatedTodo.id);
+          const updatedTodo: ITodo | undefined = await TodosService.updateTodo(todo);
+
+          if (!updatedTodo) {
+            return console.error('Todo not found');
+          }
+
+          const filteredTodos: ITodo[] = todos.value.filter(t => t.id !== updatedTodo?.id);
           todos.value = [...filteredTodos, updatedTodo];
         } catch (error) {
           console.error(error);
