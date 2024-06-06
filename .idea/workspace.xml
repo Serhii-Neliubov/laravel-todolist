@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="crud server working">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/models/ITodo.ts" afterDir="false" />
+    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="imported aliases , styling">
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/pen.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/trash.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Todo.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/interceptors.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/web.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/vite-env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/vite-env.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.ts" afterDir="false" />
     </list>
@@ -61,6 +62,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Webstorm-Projects\laravel-todo\frontend\src\assets" />
       <recent name="E:\Webstorm-Projects\laravel-todo\frontend" />
     </key>
   </component>
@@ -96,7 +98,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717632315855</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="imported aliases , styling">
+      <option name="closed" value="true" />
+      <created>1717640379162</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1717640379162</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -105,6 +115,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="css styles, added axios, pinia" />
     <MESSAGE value="crud server working" />
-    <option name="LAST_COMMIT_MESSAGE" value="crud server working" />
+    <MESSAGE value="imported aliases , styling" />
+    <option name="LAST_COMMIT_MESSAGE" value="imported aliases , styling" />
   </component>
 </project>

@@ -13,6 +13,7 @@ export default defineConfig({
       { find: '@store', replacement: fileURLToPath(new URL('./src/store', import.meta.url)) },
       { find: '@models', replacement: fileURLToPath(new URL('./src/models', import.meta.url)) },
       { find: '@components', replacement: fileURLToPath(new URL('./src/components', import.meta.url)) },
+      { find: '@utils', replacement: fileURLToPath(new URL('./src/utils', import.meta.url)) },
     ],
   },
 });

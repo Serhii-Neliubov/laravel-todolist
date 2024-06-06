@@ -1,12 +1,10 @@
-import axios from 'axios';
 import {ITodo} from "../models/ITodo.ts";
-
-const API_URL = import.meta.env.API_URL;
+import $api from "@/utils/interceptors.ts";
 
 export class TodosService {
   public static async getAllTodos(): Promise<ITodo[] | undefined> {
     try {
-      const { data } = await axios.get(`${API_URL}/todos`);
+      const { data } = await $api.get('/todos');
 
       return data;
     } catch (error) {
@@ -20,7 +18,7 @@ export class TodosService {
     }
 
     try {
-      const { data } = await axios.get(`${API_URL}/todos/${id}`);
+      const { data } = await $api.get(`/todos/${id}`);
 
       return data;
     } catch (error){
@@ -34,7 +32,10 @@ export class TodosService {
     }
 
     try {
-      const { data } = await axios.post(`${API_URL}/todos`, todo);
+      const { data } = await $api.post('/todos', {
+        title: todo.title,
+        description: todo.description,
+      });
 
       return data;
     } catch (error){
@@ -48,7 +49,7 @@ export class TodosService {
     }
 
     try {
-      const { data } = await axios.put(`${API_URL}/todos/${todo.id}`, todo);
+      const { data } = await $api.put(`/todos/${todo.id}`, todo);
 
       return data;
     } catch (error){
@@ -62,7 +63,7 @@ export class TodosService {
     }
 
     try {
-      const { data } = await axios.delete(`${API_URL}/todos/${id}`);
+      const { data } = await $api.delete(`/todos/${id}`);
 
       return data;
     } catch (error){
