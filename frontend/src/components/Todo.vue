@@ -10,10 +10,10 @@
         {{ todo.title }}
       </span>
       <div class="flex items-center gap-2">
-        <button @click="updateTodo(this.todo)" class="bg-blue-500 p-[10px] rounded hover:bg-blue-400 transition-all">
+        <button @click="updateTodo(todo._id)" class="bg-blue-500 p-[10px] rounded hover:bg-blue-400 transition-all">
           <img src="@assets/pen.svg" alt="update todo icon" class="max-w-[20px]"/>
         </button>
-        <button @click="deleteTodo(this.todo._id)" class="bg-red-500 p-[10px] rounded hover:bg-red-400 transition-all">
+        <button @click="deleteTodo(todo._id)" class="bg-red-500 p-[10px] rounded hover:bg-red-400 transition-all">
           <img src="@assets/trash.svg" alt="delete todo icon" class="max-w-[20px]"/>
         </button>
       </div>
@@ -28,13 +28,25 @@
   export default {
     name: "Todo",
 
+    emits: ['edit', 'delete'],
+
     methods: {
       handleDragStart() {
 
       },
+
       handleDragEnd() {
 
       },
+
+      updateTodo(todoId: string) {
+        this.$emit('edit', todoId);
+      },
+
+      deleteTodo(todoId: string) {
+        this.$emit('delete', todoId);
+      },
+
     },
 
     data() {
@@ -46,14 +58,6 @@
     props: {
       todo: {
         type: Object,
-        required: true,
-      },
-      updateTodo: {
-        type: Function,
-        required: true,
-      },
-      deleteTodo: {
-        type: Function,
         required: true,
       },
     }

@@ -1,27 +1,79 @@
 <template>
-  <div class="bg-black fixed top-0 left-0 w-[100%] h-[100%] bg-opacity-80">
-    <div class="w-[350px] border-2 border-blue-400 bg-white rounded top-[50%] absolute left-[50%] translate-x-[-50%] translate-y-[-50%]">
-      <div class="p-[15px]">
+  <div v-if="todoModel">
+    <div @click="closeModal" class="bg-black fixed top-0 left-0 w-[100%] h-[100%] bg-opacity-80" />
+
+    <div class="w-[650px] border-2 border-blue-400 h-[300px] bg-white rounded top-[50%] absolute left-[50%] translate-x-[-50%] translate-y-[-50%]">
+      <div class="p-[35px] flex flex-col h-full justify-between">
         <div class="flex flex-col items-start mb-[15px] gap-2">
-          <input placeholder='Title' class="border-2 w-full rounded px-3 py-2 outline-none" />
-          <input placeholder='Description' class="border-2 w-full rounded px-3 py-2 outline-none" />
+          {{ todoModel }}
+          <input v-model="todoModel.title" placeholder='Title' class="border-2 w-full rounded text-xl px-3 py-4 outline-none" />
+          <input v-model="todoModel.description" placeholder='Description' class="border-2 w-full text-xl rounded px-3 py-4 outline-none" />
         </div>
         <div class="flex gap-2 justify-end">
-          <button class="rounded px-4 bg-blue-500 hover:bg-blue-400 transition-all text-white py-2">Create</button>
-          <button class="bg-red-500 rounded px-4 py-2 text-white hover:bg-red-400 transition-all">Cancel</button>
+          <button @click="onSubmit" class="rounded px-8 bg-blue-500 hover:bg-blue-400 transition-all text-white py-2">
+            {{ todoModel._id ? 'Update' : 'Create' }}
+          </button>
+          <button @click="closeModal" class="z-10 absolute top-[-5px] right-[5px] text-red-400 text-4xl">&times;</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-  export default {
-    name: "TodoModal",
+<script setup lang="ts">
+  import {defineModel} from "vue";
+  import {ITodo, TODO_STATE} from "@models/ITodo.ts";
 
-    data: () => ({
-    }),
-  };
+  const todoModel = defineModel<ITodo>();
+  const emit = defineEmits(['close', 'submit']);
+  console.log(todoModel);
 
+  const closeModal = () => {
+    emit('close');
+  }
 
+  const onSubmit = () => {
+    emit('submit');
+  }
+
+  // export default {
+  //   name: "TodoModal",
+  //
+  //   emits: ['create', 'close', 'update'],
+  //
+  //   data: () => ({
+  //   }),
+  //
+  //   setup() {
+  //     const todoModel = defineModel();
+  //     console.log(todoModel);
+  //
+  //     return {
+  //       todoModel,
+  //     }
+  //   },
+  //
+  //   props: {
+  //     todoModel: {
+  //       type: Object,
+  //       required: true,
+  //     }
+  //   },
+  //
+  //   methods: {
+  //     createTodo() {
+  //       // const todo: ITodo = {
+  //       //   title: this.todoModel.title,
+  //       //   description: this.todoModel.description,
+  //       //   state: TODO_STATE.NEW
+  //       // }
+  //       //
+  //       // this.$emit('create', todo);
+  //     },
+  //
+  //     closeModal() {
+  //       this.$emit('close');
+  //     }
+  //   }
+  // };
 </script>

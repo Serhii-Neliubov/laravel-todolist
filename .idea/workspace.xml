@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="added responsive">
+    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="refactoring, added ts ignore for old library &quot;url&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TodoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TodoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Todo.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Todo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Todo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Todo.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/models/ITodo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/models/ITodo.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +118,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717687478681</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="refactoring, added ts ignore for old library &quot;url&quot;">
+      <option name="closed" value="true" />
+      <created>1717688286377</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1717688286377</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,6 +138,7 @@
     <MESSAGE value="imported aliases , styling" />
     <MESSAGE value="cors error fixed, added delete item functionality, interceptors for requests" />
     <MESSAGE value="added responsive" />
-    <option name="LAST_COMMIT_MESSAGE" value="added responsive" />
+    <MESSAGE value="refactoring, added ts ignore for old library &quot;url&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring, added ts ignore for old library &quot;url&quot;" />
   </component>
 </project>

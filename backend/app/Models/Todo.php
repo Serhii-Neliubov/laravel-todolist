@@ -6,5 +6,5 @@ use MongoDB\Laravel\Eloquent\Model;
 
 class Todo extends Model
 {
-    protected $fillable = ['title', 'description'];
+    protected $fillable = ['title', 'description', 'state'];
 }

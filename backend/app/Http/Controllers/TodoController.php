@@ -16,7 +16,7 @@ class TodoController extends Controller
 
     public function add(Request $request)
     {
-        $todo = Todo::create($request->only(['title', 'description']));
+        $todo = Todo::create($request->only(['title', 'description', 'state']));
         return response()->json($todo);
     }
 
@@ -24,7 +24,7 @@ class TodoController extends Controller
     {
         $todo = Todo::find($id);
         if ($todo) {
-            $todo->update($request->only(['title', 'description']));
+            $todo->update($request->only(['title', 'description', 'state']));
             return response()->json(['message' => 'Todo updated!', 'todo' => $todo]);
         } else {
             return response()->json(['message' => 'Todo not found!'], 404);

@@ -1,9 +1,11 @@
 <template>
   <div class="flex flex-col lg:flex-col p-4 lg:p-6 gap-4">
     <div class="my-5">
-      <button class="bg-blue-500 py-3 w-full max-w-[250px] text-white rounded hover:bg-blue-400 transition-all font-semibold">
+      <button @click="openModal" class="mr-8 bg-blue-500 py-3 w-full max-w-[250px] text-white rounded hover:bg-blue-400 transition-all font-semibold">
         Create Todo
       </button>
+      {{ modalTodo }}
+      <span v-if="loading" class="text-2xl">Loading...</span>
     </div>
     <div class="flex flex-col lg:flex-row gap-4 w-full">
       <div class="border-2 border-blue-300 flex-1 h-auto lg:h-[100vh] p-4 rounded">
@@ -14,10 +16,11 @@
             </span>
           </div>
           <div
-              v-for="todo in todos"
+              v-for="todo in newTodos"
+              :key="todo._id"
               class="flex flex-col w-full"
           >
-            <Todo :todo="todo" :updateTodo="updateTodo" :deleteTodo="deleteTodo" />
+            <Todo @edit="onEditTodo" @delete="onDeleteTodo" :todo="todo" />
           </div>
         </div>
       </div>
@@ -27,6 +30,13 @@
             Processing
           </span>
         </div>
+        <div
+            v-for="todo in processingTodos"
+            :key="todo._id"
+            class="flex flex-col w-full"
+        >
+          <Todo @edit="onEditTodo" @delete="onDeleteTodo" :todo="todo" />
+        </div>
       </div>
       <div class="border-2 border-green-400 flex-1 h-auto lg:h-[100vh] p-4 rounded">
         <div class="border-gray-300 border-b-2 w-full pb-3">
@@ -34,91 +44,195 @@
             Done
           </span>
         </div>
+        <div
+            v-for="todo in doneTodos"
+            :key="todo._id"
+            class="flex flex-col w-full"
+        >
+          <Todo @edit="onEditTodo" @delete="onDeleteTodo" :todo="todo" />
+        </div>
       </div>
     </div>
   </div>
-  <!--  <todo-modal v-model:openModal="openModal" />-->
 
+  <todo-modal
+      v-if="isModalVisible"
+      v-model="modalTodo"
+      @submit="onModalSubmit"
+      @close="onModalClose"
+  />
 </template>
 
 <script lang="ts">
-  import {onMounted, ref} from "vue";
-  import {ITodo} from "@models/ITodo.ts";
+  import {onMounted, reactive, ref} from "vue";
+  import {ITodo, TODO_STATE} from "@models/ITodo.ts";
 
   import {TodosService} from "@services/TodosService.ts";
   import TodoModal from "@components/TodoModal.vue";
   import Todo from "@components/Todo.vue";
 
   export default {
-    name: 'KanbanBoard',
+      name: 'KanbanBoard',
 
-    components: {
-      Todo,
-      TodoModal,
-    },
+      components: {
+        Todo,
+        TodoModal,
+      },
 
-    setup() {
-      const todos = ref<ITodo[]>([]);
-      const isModalVisible = ref(false);
+      setup() {
+        const todos = reactive<ITodo[]>([]);
+        const modalTodo = ref<ITodo>({
+          title: '',
+          description: '',
+          state: TODO_STATE.NEW,
+        });
 
-      onMounted(async () => {
-        try {
-          const todosList: ITodo[] | undefined = await TodosService.getAllTodos();
+        const isModalVisible = ref(false);
+        const loading = ref(false);
 
-          if (!todosList) {
-            return console.error('No todos found');
+        async function getAllTodos() {
+          try {
+            loading.value = true;
+            const todosList: ITodo[] | undefined = await TodosService.getAllTodos();
+
+            if (!todosList) {
+              return console.error('No todos found');
+            }
+
+            Object.assign(todos, todosList);
+          } catch (error) {
+            console.error(error);
+          } finally {
+            loading.value = false;
           }
-
-          todos.value = todosList;
-        } catch (error) {
-          console.error(error);
         }
-      });
 
-      const openModal = () => {
-        isModalVisible.value = true;
-      };
+        onMounted(async () => {
+          await getAllTodos();
+        });
 
-      const updateTodo = async (todo: ITodo) => {
-        try {
-          if (!todo.title || !todo.description) {
-            return console.error('Title and description are required');
+        return {
+          todos,
+          isModalVisible,
+          modalTodo,
+          loading,
+        };
+      },
+
+      computed: {
+        newTodos() {
+          return this.todos.filter(t => t.state === TODO_STATE.NEW);
+        },
+        processingTodos() {
+          return this.todos.filter(t => t.state === TODO_STATE.PROCESSING);
+        },
+        doneTodos() {
+          return this.todos.filter(t => t.state === TODO_STATE.DONE);
+        },
+      },
+
+      methods: {
+        openModal() {
+          this.isModalVisible = true;
+        },
+
+        onModalClose() {
+          this.isModalVisible = false;
+
+          Object.assign(this.modalTodo, {
+            _id: undefined,
+            title: '',
+            description: '',
+            state: TODO_STATE.NEW,
+          });
+        },
+
+        onModalSubmit() {
+          if(this.modalTodo._id) {
+            this.updateTodo(this.modalTodo._id);
+          } else {
+            this.createTodo(this.modalTodo);
           }
+        },
 
-          const updatedTodo: ITodo | undefined = await TodosService.updateTodo(todo);
+        async createTodo(todo: ITodo) {
+          try {
+            this.loading = true;
 
-          if (!updatedTodo) {
+            if (!todo.title || !todo.description) {
+              return console.error('Title and description are required');
+            }
+
+            const createdTodo: ITodo | undefined = await TodosService.createTodo(todo);
+
+            if (!createdTodo?._id) {
+              return console.error('Problem creating todo');
+            }
+
+            this.todos.push(createdTodo);
+            this.isModalVisible = false;
+            Object.assign(this.modalTodo, {
+              title: '',
+              description: '',
+              state: TODO_STATE.NEW,
+            });
+          } catch (error) {
+            console.error(error);
+          } finally {
+            this.loading = false;
+          }
+        },
+
+        async updateTodo(todoId: string) {
+          try {
+            this.loading = true;
+
+            if (!todoId) {
+              return console.error('Todo id not found');
+            }
+
+            const updatedTodo: ITodo | undefined = await TodosService.updateTodo(this.modalTodo);
+
+            if (!updatedTodo?._id) {
+              return console.error('Todo not found');
+            }
+
+            this.todos.splice(this.todos.findIndex(t => t._id === updatedTodo._id), 1, updatedTodo);
+          } catch (error) {
+            console.error(error);
+          } finally {
+            this.loading = false;
+          }
+        },
+
+        onEditTodo(todoId: string) {
+          const foundTodo = this.todos.find(t => t._id === todoId);
+
+          if (!foundTodo) {
             return console.error('Todo not found');
           }
 
-          const filteredTodos: ITodo[] = todos.value.filter(t => t.id !== updatedTodo?.id);
-          todos.value = [...filteredTodos, updatedTodo];
-        } catch (error) {
-          console.error(error);
-        }
-      };
+          Object.assign(this.modalTodo, foundTodo);
 
-      const deleteTodo = async (todoId: string) => {
-        try {
-          const deletedTodo = await TodosService.deleteTodo(todoId);
+          this.isModalVisible = true;
+        },
 
-          if (!deletedTodo) {
-            return console.error('Todo not found');
+        async onDeleteTodo(todoId: string) {
+          try {
+            this.loading = true;
+            const deletedTodo = await TodosService.deleteTodo(todoId);
+
+            if (!deletedTodo) {
+              return console.error('Todo not found');
+            }
+
+            this.todos.splice(this.todos.findIndex(t => t._id === todoId), 1);
+          } catch (error) {
+            console.error(error);
+          } finally {
+            this.loading = false;
           }
-
-          todos.value = todos.value.filter(t => t.id !== todoId);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      return {
-        todos,
-        isModalVisible,
-        openModal,
-        updateTodo,
-        deleteTodo,
-      };
-    },
-  };
+        },
+      },
+    };
 </script>

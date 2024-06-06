@@ -1,12 +1,12 @@
-enum todoState {
-  todo = 'todo',
-  inProgress = 'inProgress',
-  done = 'done'
+export enum TODO_STATE {
+  NEW = 'new',
+  PROCESSING = 'processing',
+  DONE = 'done'
 }
 
 export interface ITodo {
-  id?: string;
+  _id?: string;
   title: string;
   description: string;
-  state: todoState;
+  state: TODO_STATE;
 }
