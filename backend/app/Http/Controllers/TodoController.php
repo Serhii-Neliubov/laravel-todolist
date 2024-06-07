@@ -46,5 +46,10 @@ class TodoController extends Controller
         {
             $todos = Todo::where('title', 'like', '%' . $value . '%')->get();
             return response()->json($todos);
+
+            if($value == '') {
+                $todos = Todo::all();
+                return response()->json($todos);
+            }
         }
 }

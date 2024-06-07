@@ -9,7 +9,7 @@
   export default {
     name: 'Search',
 
-    emits: ['search'],
+    emits: ['search', 'restoreTodos'],
 
     setup(_, { emit }) {
       const search = ref('')
@@ -17,6 +17,10 @@
 
       watch(debouncedSearch, (newVal) => {
         emit('search', newVal);
+
+        if(newVal === '') {
+          emit('restoreTodos')
+        }
       });
 
       return {

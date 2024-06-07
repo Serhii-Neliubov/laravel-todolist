@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-  import {defineModel} from "vue";
+import {defineModel} from "vue";
   import {ITodo} from "@models/ITodo.ts";
 
   const todoModel = defineModel<ITodo>();

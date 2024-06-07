@@ -4,7 +4,7 @@
       <button @click="openModal" class="mr-8 bg-blue-500 py-3 w-full max-w-[250px] text-white rounded hover:bg-blue-400 transition-all font-semibold">
         Create Todo
       </button>
-      <Search @search="searchHandler"/>
+      <Search @restoreTodos="getAllTodos" @search="searchHandler"/>
     </div>
     <div class="flex flex-col lg:flex-row gap-4 w-full">
       <div class="border-2 border-blue-300 flex-1 h-auto lg:h-[100vh] p-4 rounded">
@@ -184,19 +184,26 @@ export default {
     },
 
     async onModalSubmit() {
-      if (this.modalTodo._id) {
-        await this.todosStore.update(this.modalTodo);
-      } else {
-        await this.todosStore.add(this.modalTodo);
+      try {
+        this.loading = true;
+        if (this.modalTodo._id) {
+          await this.todosStore.update(this.modalTodo);
+        } else {
+          await this.todosStore.add(this.modalTodo);
+        }
+
+        this.isModalVisible = false;
+
+        Object.assign(this.modalTodo, {
+          title: '',
+          description: '',
+          state: TODO_STATE.NEW,
+        });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loading = false;
       }
-
-      this.isModalVisible = false;
-
-      Object.assign(this.modalTodo, {
-        title: '',
-        description: '',
-        state: TODO_STATE.NEW,
-      });
     },
 
     async changeTodoState(event: any, newState: TODO_STATE) {
