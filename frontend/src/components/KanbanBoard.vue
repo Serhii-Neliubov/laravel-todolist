@@ -1,9 +1,10 @@
 <template>
   <div class="flex flex-col lg:flex-col p-4 lg:p-6 gap-4">
-    <div class="my-5">
+    <div class="my-5 flex flex-col">
       <button @click="openModal" class="mr-8 bg-blue-500 py-3 w-full max-w-[250px] text-white rounded hover:bg-blue-400 transition-all font-semibold">
         Create Todo
       </button>
+      <Search @search="searchHandler"/>
     </div>
     <div class="flex flex-col lg:flex-row gap-4 w-full">
       <div class="border-2 border-blue-300 flex-1 h-auto lg:h-[100vh] p-4 rounded">
@@ -84,14 +85,17 @@ import draggable from 'vuedraggable';
 
 import { useTodosStore } from '@store/useTodosStore.ts';
 import { ITodo, TODO_STATE } from '@models/ITodo';
+
 import Todo from '@components/Todo.vue';
 import TodoModal from '@components/TodoModal.vue';
 import Loader from "@components/Loader.vue";
+import Search from "@components/Search.vue";
 
 export default {
   name: 'KanbanBoard',
 
   components: {
+    Search,
     Loader,
     Todo,
     TodoModal,
@@ -143,16 +147,6 @@ export default {
   },
 
   methods: {
-    async getAllTodos() {
-      try {
-        this.loading = true;
-
-        await this.todosStore.fetchTodos();
-      } finally {
-        this.loading = false;
-      }
-    },
-
     openModal() {
       this.isModalVisible = true;
     },
@@ -166,6 +160,27 @@ export default {
         description: '',
         state: TODO_STATE.NEW,
       });
+    },
+
+    onEditTodo(todoId: string) {
+      const foundTodo = this.todos.find(t => t._id === todoId);
+
+      if (!foundTodo) {
+        return console.error('Todo not found');
+      }
+
+      Object.assign(this.modalTodo, foundTodo);
+      this.isModalVisible = true;
+    },
+
+    async getAllTodos() {
+      try {
+        this.loading = true;
+
+        await this.todosStore.fetchTodos();
+      } finally {
+        this.loading = false;
+      }
     },
 
     async onModalSubmit() {
@@ -198,22 +213,21 @@ export default {
       }
     },
 
-    onEditTodo(todoId: string) {
-      const foundTodo = this.todos.find(t => t._id === todoId);
-
-      if (!foundTodo) {
-        return console.error('Todo not found');
-      }
-
-      Object.assign(this.modalTodo, foundTodo);
-      this.isModalVisible = true;
-    },
-
     async onDeleteTodo(todoId: string) {
       try {
         this.loading = true;
 
         await this.todosStore.remove(todoId);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async searchHandler(searchValue: string) {
+      try {
+        this.loading = true;
+
+        await this.todosStore.search(searchValue);
       } finally {
         this.loading = false;
       }

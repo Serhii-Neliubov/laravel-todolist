@@ -41,4 +41,10 @@ class TodoController extends Controller
             return response()->json(['message' => 'Todo not found!'], 404);
         }
     }
+
+    public function search($value)
+        {
+            $todos = Todo::where('title', 'like', '%' . $value . '%')->get();
+            return response()->json($todos);
+        }
 }

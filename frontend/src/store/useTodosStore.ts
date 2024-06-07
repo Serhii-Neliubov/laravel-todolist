@@ -43,6 +43,7 @@ export const useTodosStore = defineStore('todos', {
         this.todos[index] = updatedTodo;
       }
     },
+
     async remove(id: string) {
       const deletedTodo = await TodosService.deleteTodo(id);
 
@@ -52,6 +53,16 @@ export const useTodosStore = defineStore('todos', {
 
       this.todos = this.todos.filter(t => t._id !== id);
     },
+
+    async search(query: string) {
+      const todos = await TodosService.searchTodos(query);
+
+      if(!todos) {
+        return;
+      }
+
+      this.todos = todos;
+    }
   },
 
   getters: {

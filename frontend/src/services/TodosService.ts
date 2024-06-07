@@ -59,4 +59,18 @@ export class TodosService {
       console.log(`Error deleting todo: ${id}`);
     }
   }
+
+  public static async searchTodos(query: string): Promise<ITodo[] | undefined> {
+    if(!query) {
+      return;
+    }
+
+    try {
+      const { data } = await $api.get(`/todos/search/${query}`);
+
+      return data;
+    } catch (error){
+      console.log('Error searching todos');
+    }
+  }
 }
