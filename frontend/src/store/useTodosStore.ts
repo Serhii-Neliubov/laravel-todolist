@@ -31,7 +31,7 @@ export const useTodosStore = defineStore('todos', {
     },
 
     async update(todo: ITodo) {
-      const updatedTodo = await TodosService.updateTodo(todo);
+      const updatedTodo: ITodo | undefined = await TodosService.updateTodo(todo);
 
       if(!updatedTodo) {
         return;

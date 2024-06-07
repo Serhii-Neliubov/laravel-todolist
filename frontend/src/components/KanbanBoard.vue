@@ -185,22 +185,25 @@ export default {
 
     async onModalSubmit() {
       try {
+        if(!this.modalTodo.title) {
+          return alert('Title is required');
+        }
+
         this.loading = true;
+
         if (this.modalTodo._id) {
           await this.todosStore.update(this.modalTodo);
         } else {
           await this.todosStore.add(this.modalTodo);
         }
 
-        this.isModalVisible = false;
-
         Object.assign(this.modalTodo, {
           title: '',
           description: '',
           state: TODO_STATE.NEW,
         });
-      } catch (error) {
-        console.error(error);
+
+        this.isModalVisible = false;
       } finally {
         this.loading = false;
       }

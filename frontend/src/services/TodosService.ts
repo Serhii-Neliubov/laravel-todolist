@@ -38,9 +38,7 @@ export class TodosService {
     try {
       const { data } = await $api.put(`/todos/${todo._id}`, todo);
 
-      console.log('data', data)
-
-      return data;
+      return data.todo;
     } catch (error){
       console.log('Error editing todo');
     }
