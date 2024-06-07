@@ -4,19 +4,16 @@
       <button @click="openModal" class="mr-8 bg-blue-500 py-3 w-full max-w-[250px] text-white rounded hover:bg-blue-400 transition-all font-semibold">
         Create Todo
       </button>
-      {{ modalTodo }}
-      <span v-if="loading" class="text-2xl">Loading...</span>
     </div>
     <div class="flex flex-col lg:flex-row gap-4 w-full">
       <div class="border-2 border-blue-300 flex-1 h-auto lg:h-[100vh] p-4 rounded">
-        <div class="flex flex-col items-center justify-between">
-          <div class="border-gray-300 border-b-2 w-full pb-3">
-            <span class="text-2xl font-bold uppercase">
+        <div class="border-gray-300 border-b-2 w-full pb-3">
+          <span class="text-2xl font-bold uppercase">
               New
             </span>
-          </div>
-          <draggable
-              class="w-full"
+        </div>
+        <draggable
+              class="w-full h-full"
               :list="newTodos"
               group="todos"
               @change="changeTodoState($event, TODO_STATE.NEW)"
@@ -28,7 +25,6 @@
               </div>
             </template>
           </draggable>
-        </div>
       </div>
       <div class="border-2 border-yellow-400 flex-1 h-auto lg:h-[100vh] p-4 rounded">
         <div class="border-gray-300 border-b-2 w-full pb-3">
@@ -37,7 +33,7 @@
           </span>
         </div>
         <draggable
-            class="w-full"
+            class="w-full h-full"
             :list="processingTodos"
             group="todos"
             @change="changeTodoState($event, TODO_STATE.PROCESSING)"
@@ -57,7 +53,7 @@
           </span>
         </div>
         <draggable
-            class="w-full"
+            class="w-full h-full"
             :list="doneTodos"
             group="todos"
             @change="changeTodoState($event, TODO_STATE.DONE)"
@@ -79,6 +75,8 @@
       @submit="onModalSubmit"
       @close="onModalClose"
   />
+
+  <loader v-if="loading" />
 </template>
 
 <script lang="ts">
@@ -88,11 +86,13 @@ import { useTodosStore } from '@store/useTodosStore.ts';
 import { ITodo, TODO_STATE } from '@models/ITodo';
 import Todo from '@components/Todo.vue';
 import TodoModal from '@components/TodoModal.vue';
+import Loader from "@components/Loader.vue";
 
 export default {
   name: 'KanbanBoard',
 
   components: {
+    Loader,
     Todo,
     TodoModal,
     draggable,

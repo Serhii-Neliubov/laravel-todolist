@@ -21,6 +21,7 @@ export class TodosService {
       const { data } = await $api.post('/todos', {
         title: todo.title,
         description: todo.description,
+        state: todo.state,
       });
 
       return data;

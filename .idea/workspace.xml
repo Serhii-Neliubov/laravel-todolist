@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="integrated pinia store functionality">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Loader.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/KanbanBoard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TodoModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/TodosService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

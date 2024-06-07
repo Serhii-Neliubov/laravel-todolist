@@ -5,7 +5,6 @@
     <div class="w-[650px] border-2 border-blue-400 h-[300px] bg-white rounded top-[50%] absolute left-[50%] translate-x-[-50%] translate-y-[-50%]">
       <div class="p-[35px] flex flex-col h-full justify-between">
         <div class="flex flex-col items-start mb-[15px] gap-2">
-          {{ todoModel }}
           <input v-model="todoModel.title" placeholder='Title' class="border-2 w-full rounded text-xl px-3 py-4 outline-none" />
           <input v-model="todoModel.description" placeholder='Description' class="border-2 w-full text-xl rounded px-3 py-4 outline-none" />
         </div>
@@ -34,6 +33,4 @@
   const onSubmit = () => {
     emit('submit');
   }
-
-
 </script>
