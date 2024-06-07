@@ -9,7 +9,7 @@ function getCookie(name: string) {
     return null
   }
 
-  return cookie?.split('=')[1];
+  return cookie.split('=')[1];
 }
 
 const $api = axios.create({

@@ -3,40 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Todo;
+use App\Services\TodosService;
 
 class TodoController extends Controller
 {
+    protected $todosService;
+
+    public function __construct(TodosService $todosService)
+    {
+        $this->todosService = $todosService;
+    }
+
     public function getAll()
     {
-        $todos = Todo::all();
+        $todos = $this->todosService->getAll();
         return response()->json($todos);
     }
 
     public function add(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'state' => 'nullable|string',
-        ]);
-
-        $todo = Todo::create($request->only(['title', 'description', 'state']));
+        $todo = $this->todosService->add($request);
         return response()->json($todo);
     }
 
     public function update($id, Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'state' => 'nullable|string',
-        ]);
-
-        $todo = Todo::find($id);
+        $todo = $this->todosService->update($id, $request);
 
         if ($todo) {
-            $todo->update($request->only(['title', 'description', 'state']));
             return response()->json(['message' => 'Todo updated!', 'todo' => $todo]);
         } else {
             return response()->json(['message' => 'Todo not found!'], 404);
@@ -45,9 +39,9 @@ class TodoController extends Controller
 
     public function delete($id)
     {
-        $todo = Todo::find($id);
-        if ($todo) {
-            $todo->delete();
+        $deleted = $this->todosService->delete($id);
+
+        if ($deleted) {
             return response()->json(['message' => 'Todo deleted!']);
         } else {
             return response()->json(['message' => 'Todo not found!'], 404);
@@ -56,12 +50,7 @@ class TodoController extends Controller
 
     public function search($value)
     {
-        $todos = Todo::where('title', 'like', '%' . $value . '%')->get();
+        $todos = $this->todosService->search($value);
         return response()->json($todos);
-
-        if ($value == '') {
-            $todos = Todo::all();
-            return response()->json($todos);
-        }
     }
 }
