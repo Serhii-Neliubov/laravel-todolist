@@ -23,6 +23,7 @@ const $api = axios.create({
 
 $api.interceptors.request.use(
   (config) => {
+    // This header is not used for backend but CORS requires it
     const csrfToken = getCookie('XSRF-TOKEN');
 
     if (csrfToken) {

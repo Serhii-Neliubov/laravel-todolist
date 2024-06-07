@@ -12,14 +12,14 @@
     emits: ['search', 'restoreTodos'],
 
     setup(_, { emit }) {
-      const search = ref('')
+      const search = ref('');
       const debouncedSearch = useDebounce(search, 500);
 
       watch(debouncedSearch, (newVal) => {
         emit('search', newVal);
 
         if(newVal === '') {
-          emit('restoreTodos')
+          emit('restoreTodos');
         }
       });
 

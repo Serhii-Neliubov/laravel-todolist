@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="fixed todo update">
-      <change afterPath="$PROJECT_DIR$/backend/app/Services/TodosService.php" afterDir="false" />
+    <list default="true" id="3ec07ab8-b091-403b-978d-47c8ed84b65f" name="Changes" comment="backend refactoring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/TodoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/TodoController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/Controller.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Search.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/interceptors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/interceptors.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717781742896</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="backend refactoring">
+      <option name="closed" value="true" />
+      <created>1717783415550</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1717783415550</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,6 +189,8 @@
     <MESSAGE value="refactoring, loader component" />
     <MESSAGE value="added search todos functional" />
     <MESSAGE value="fixed todo update" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed todo update" />
+    <MESSAGE value="refactoring" />
+    <MESSAGE value="backend refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="backend refactoring" />
   </component>
 </project>
